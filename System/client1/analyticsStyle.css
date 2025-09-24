@@ -1,0 +1,802 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+
+
+#dashboard{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 12px;
+    padding-top:6px;
+    font-size: 23px;
+}
+#dashboard_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+/* ////////////// Title Bar for each Climate Options ///////////////////////// */
+
+.title{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    height: 36px;
+    width: 100wh;
+}
+#Interval{
+    /* margin-left: 70%; */
+    margin-right: 10px;
+    /* text- */
+}
+.IntervalRange{
+    display: flex;
+    margin-left: auto;
+    margin-right: 30px;
+    align-items: center;
+}
+
+#startDate{
+    margin-left: auto;
+    height: 20px;
+    width: 100px;
+}
+#to{
+    color: #5c5c5c;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+#endDate{
+    width: 100px;
+    height: 20px;
+}
+#vegetation_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#carrot{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 10px;
+    padding-top:6px;
+    font-size: 23px;
+}
+
+#fire_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#fire{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 12px;
+    padding-top:6px;
+    font-size: 23px;
+}
+
+#weather_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#weather{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 12px;
+    padding-top:6px;
+    font-size: 23px;
+}
+
+#water_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#water{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 12px;
+    padding-top:6px;
+    font-size: 23px;
+}
+
+#rain_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#rain{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 12px;
+    padding-top:6px;
+    font-size: 23px;
+}
+
+#soil_head{
+    padding-left: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#soil{
+    margin-left: 78px;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding-right: 12px;
+    padding-top:6px;
+    font-size: 23px;
+}
+
+.chart-info{
+    overflow-y: hidden;
+    height: 30px;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
+    transition-property: all;
+}
+.chart-info:hover{
+    /* height: 12.5vh; */
+    height: auto;
+}
+
+.info-content{
+    padding-left: 10px;
+}
+
+.chart-info-content{
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-right: 5px;
+}
+
+#scale-range{
+    padding-top: 5px;
+}
+
+
+/* /////////////////////////// Vegetation Section //////////////////////////////// */
+
+.vegSection{
+    display:flex;
+    /* flex-wrap: wrap; */
+    gap: 20px;
+    position: fixed;
+    overflow-y: auto;
+    width: 100%;
+    flex: 1;
+    background-color: white;
+    flex-direction: column;
+    height: 575px;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+
+}
+.veg-container{
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:25px;
+}
+
+
+
+#ndvi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#ndviChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.ndviChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#evi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#eviChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.eviChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 100px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#gci-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#gciChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.gciChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 100px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#psri-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#psriChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.psriChartDiv{
+    /* margin-top: 10px; */
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#ndre-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#ndreChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.ndreChartDiv{
+    /* margin-top: 10px; */
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 10px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#cri1-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#cri1Chart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.cri1ChartDiv{
+    /* margin-top: 10px; */
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 10px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+.observ-sec{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    gap: 200px;
+    margin-bottom: 20px;
+    /* background-color: blue; */
+}
+.content1{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: 90px;
+    gap: 15px;
+    width: 600px;
+
+}
+.content2{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 10px;
+    width: 600px;
+}
+#observ-table, #recomm-table, #nutrients-table{
+    border-collapse: collapse;
+    width: 100%;
+}
+td{
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 7px;
+}
+th{
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.conclusion{
+    /* position: relative; */
+    /* margin-top: 20px; */
+    /* display: flex; */
+    /* flex-direction: row; */
+    background-color: white;
+    min-height: auto;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+#conclusion-head{
+    font-size: 23px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+.action{
+    background-color: white;
+    height: 500px;
+    border-radius: 0.5rem;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+.recomm-crops{
+    /* position: relative; */
+    /* margin-top: 20px; */
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* margin-left: 90px; */
+    background-color: white;
+    min-height: auto;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+#recomm-crops-head, #action-head{
+    font-size: 23px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+.nutrients{
+    /* position: relative; */
+    /* margin-top: 20px; */
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* margin-left: 90px; */
+    background-color: white;
+    min-height: auto;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+#nutrients-head{
+    font-size: 23px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding-top: 5px;
+    padding-left: 10px;
+
+}
+
+/* ///////////////////// Water Section ////////////////////////////// */
+
+.waterSection{
+    display:flex;
+    /* flex-wrap: wrap; */
+    gap: 20px;
+    position: fixed;
+    overflow-y: auto;
+    width: 100%;
+    flex: 1;
+    background-color: white;
+    flex-direction: column;
+    height: 575px;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+
+}
+.water-container{
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+#ndwi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#ndwiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.ndwiChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#mndwi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#mndwiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.mndwiChartDiv{
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 90px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+
+#lswi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#lswiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.lswiChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 90px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#awei-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#aweiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.aweiChartDiv{
+    /* margin-top: 20px; */
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#ndmi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#ndmiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.ndmiChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 90px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#sarwi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#sarwiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.sarwiChartDiv{
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 90px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#ewi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#ewiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.ewiChartDiv{
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+/* ///////////////////// Fire section //////////////////// */
+
+.fireSection{
+    display:flex;
+    /* flex-wrap: wrap; */
+    gap: 20px;
+    position: fixed;
+    overflow-y: auto;
+    width: 100%;
+    flex: 1;
+    background-color: white;
+    flex-direction: column;
+    height: 575px;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+
+}
+.fire-container{
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+
+/* /////////////////////////// Rain Section ////////////////////// */
+
+.rainSection{
+    display:flex;
+    /* flex-wrap: wrap; */
+    gap: 20px;
+    position: fixed;
+    overflow-y: auto;
+    width: 100%;
+    flex: 1;
+    background-color: white;
+    flex-direction: column;
+    height: 575px;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+
+}
+.rain-container{
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+
+/* ////////////////////////////// soil section //////////////////////////// */
+
+.soilSection{
+    display:flex;
+    /* flex-wrap: wrap; */
+    gap: 20px;
+    position: fixed;
+    overflow-y: auto;
+    width: 100%;
+    flex: 1;
+    background-color: white;
+    flex-direction: column;
+    height: 575px;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+
+}
+.soil-container{
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+#bsi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#bsiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.bsiChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#ndti-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#ndtiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.ndtiChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 90px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#si-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#siChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.siChartDiv{
+    margin-top: 20px;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    /* margin-left: 90px; */
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}
+
+#smi-chart-title{
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+#smiChart{
+    border-top: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    /* margin-left:30px; */
+    min-height: 300px;
+    width: auto;
+}
+
+.smiChartDiv{
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+    margin-left: 90px;
+    width: 450px;
+    box-shadow: 4px 4px 20px 2px rgba(0,0,0,0.15);
+}

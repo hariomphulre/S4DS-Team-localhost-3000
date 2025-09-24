@@ -1,0 +1,245 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.nav-bar{
+    /* display: flex; */
+    /* flex-direction: row; */
+    height: auto;
+    min-height: 50px;
+    /* background-color: rgb(0, 70, 0); */
+    /* background-color: #073b3a; */
+    background-color: #192a06;
+}
+
+body{
+    background-color: whitesmoke;
+}
+nav{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+}
+#topic{
+    margin-top: 8px;
+    /* margin-top: 7px; */
+    /* display: flex; */
+    font-family: Helvetica;
+    font-size: 22px;
+    color: white;
+}
+
+.nav-buttons{
+    margin-left: auto;
+    margin-right: 85px;
+    margin-top: 8px;
+    display:flex;
+    gap: 10px;
+}
+#search-bar{
+    margin-left:180px;
+    min-height: 34px;
+    padding-left: 10px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 100%;
+    min-width: 80px;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+#climate:hover,#console:hover{
+    cursor: pointer;
+    color: blue;
+}
+#climate, #console{
+    font-family: Helvetica;
+    padding: 6px;
+    border-radius: 4px;
+    height: auto;
+    min-height: 32px;
+    padding-left: 10px; 
+    padding-right: 10px; 
+    font-size: 14px;
+}
+.classField{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+    font-family: Helvetica;
+    /* height: auto; */
+    /* border: 1px solid black; */
+    /* border-radius: 4px; */
+    align-items: center;
+    justify-content: center;
+    
+}
+#selectField{
+    /* box-sizing: border-box; */
+    /* padding-top: 4px; */
+    /* padding-bottom: 4px; */
+    /* padding-left: 10px; */
+    /* padding-right: 6px; */
+    margin-top: 1.7px;
+    height: 28.6px;
+    border-radius: 3px; 
+    padding-left: 7px;
+    padding-right: 4px;
+    background-color: white;
+    color: #222;
+    /* width: 50px; */
+    /* font-size: 16px */
+    /* height: 32px; */
+    /* margin-top: 4px; */
+}
+#selectField:hover{
+    cursor:pointer;
+}
+#location{
+    margin-top: 8px;
+    height: 28.3px;
+    max-width: 85px; 
+    border-radius: 4px; 
+    padding-left: 10px;
+    padding-right: 4px;
+    background-color: white;
+    color: #222;
+}
+
+
+
+.search-container {
+  position: relative;
+  width: 350px;
+  margin-left: 90px;
+  margin-top: 8px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 6px;
+  border-radius: 25px;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.icons {
+    position: absolute;
+    top: 7px;
+    left: 315px;
+    /* right: 14px; */
+    display: flex;
+    gap: 6px;
+}
+
+.icons button {
+  background: none;
+  border: none;
+  font-size: 17.2px;
+  cursor: pointer;
+}
+
+.mainContent{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.left-bar{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: fixed;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 65px;
+    /* height: 92.85%; */
+    height: 92.85vh;
+    top: 50px;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.4);
+    font-family: helvetica;
+    overflow: hidden;
+    transition: width 0.17s linear;
+}
+
+#left-bar-btn{
+    position: relative;
+    display: table;
+    text-decoration: none;
+    padding: 25px;
+    /* padding-bottom: 20px; */
+    /* padding-top: 20px; */
+    width: 100%;
+    color: black;
+}
+
+#left-bar-btn:hover, #left-bar-btn-fix:hover, #left-bar-ai:hover{
+    background-color: rgb(220, 220, 220);
+}
+
+.left-bar:hover{
+    /* width: auto; */
+    width: 230px;
+}
+
+#left-bar-icon{
+    padding-right: 24px;
+}
+
+#left-bar-btn-fix{
+    position: relative;
+    display: table;
+    text-decoration: none;
+    /* padding: 20px; */
+    padding-left: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px; 
+    width: 100%;
+    color: black;
+    border-top: 1px solid rgba(0,0,0,0.4);
+    /* justify-content: bottom; */
+    
+}
+
+.left-bar-top{
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+} 
+
+/*/////////////////////////////////////////////////*/
+
+.left-bar ul {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#left-bar-ai{
+    position: relative;
+    display: table;
+    text-decoration: none;
+    /* padding: 20px; */
+    /* padding-left: 25px; */
+    padding-top: 15px;
+    padding-bottom: 15px; 
+    width: 100%;
+    color: black;
+    border-top: 1px solid rgba(0,0,0,0.4);
+}
+#ai_logo{
+    padding-right: 22px; 
+    padding-left: 21.5px;
+    width: 21px;
+    height: auto;
+}
+
+#selectField{
+    width: 140px;
+}
+
+

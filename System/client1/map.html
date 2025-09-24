@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plot Field on Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="mapStyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+  <div class="mapSection">
+    <header class="title">
+      <h1>Plot New Field</h1>
+      <p id="heading-para">Draw a polygon on the map to mark a new field and save it with a unique name.</p>
+    </header>
+    <div class="map-container">
+
+      <div id="map"></div>
+      <div class="map-btn">
+        <h2 id="map-field-details-h2">Field Details</h2>
+        <input type="text" id="fieldNameInput" placeholder="Enter Field Name"/>
+        <input type="text" id="fieldLocation" placeholder="Field Location">
+        <table id="coordTable" border="1">
+          <thead>
+            <tr>
+              <th style="color: blue">Point</th>
+              <th style="color: blue">Longitude</th>
+              <th style="color: blue">Latitude</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <!-- <button id="saveJsonBtn" class="btn-primary">Save as JSON</button> -->
+        <button id="saveLocalBtn" class="btn-save">Save</button>
+        <button id="clearBtn" class="btn-clear">Clear All</button>
+        <!-- <button id="loadLocalBtn" class="btn-primary">Load from Local Storage</button> -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <div id="message-box">
+    <div class="message-box-content">
+      <p id="message-text"></p>
+      <button onclick="document.getElementById('message-box').style.display='none'" class="btn-primary">OK</button>
+    </div>
+  </div> -->
+
+  <script>
+    const apiKey = "AIzaSyA3vUl0jnyrAi_awYheUAYjFNDKCUaDpeU";
+    let map;
+    let drawingManager;
+    let currentPolygon = null;
+
+    function showMessage(message) {
+      document.getElementById('message-text').innerText = message;
+      document.getElementById('message-box').style.display = 'flex';
+    }
+
+    function getPolygonCoordinates() {
+      if (!currentPolygon) return null;
+      const path = currentPolygon.getPath();
+      const coordinates = [];
+      path.forEach(latLng => {
+        coordinates.push({ lat: latLng.lat(), lng: latLng.lng() });
+      });
+      return coordinates;
+    }
+
+    function updateCoordinateTable(coords) {
+      const tableBody = document.querySelector('#coordTable tbody');
+      tableBody.innerHTML = ''; // clear previous
+      coords.forEach((point, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${point.lat.toFixed(6)}</td>
+          <td>${point.lng.toFixed(6)}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function saveFieldAsJson() {
+      const fieldName = document.getElementById('fieldNameInput').value.trim();
+      const coordinates = getPolygonCoordinates();
+
+      if (!coordinates || coordinates.length < 3) {
+        alert("Draw a polygon with at least 3 points.");
+        return;
+      }
+
+      if (!fieldName) {
+        alert("Enter a name before saving.");
+        return;
+      }
+
+      const formattedCoords = coordinates.map(coord => ({ lat: coord.lat, lng: coord.lng }));
+
+      let existingFields = JSON.parse(localStorage.getItem('allFields')) || {};
+
+      existingFields[fieldName] = formattedCoords;
+
+      localStorage.setItem('allFields', JSON.stringify(existingFields, null, 2));
+
+      const blob = new Blob([JSON.stringify(existingFields, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'fields_data.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      alert("Field saved and JSON downloaded.");
+    }
+
+
+    function saveToLocalStorage() {
+      if (!currentPolygon) {
+        showMessage("No polygon to save.");
+        return;
+      }
+      localStorage.setItem('savedPolygon', JSON.stringify(getPolygonCoordinates()));
+      showMessage("Saved to local storage!");
+    }
+
+    // function loadFromLocalStorage() {
+    //   const saved = localStorage.getItem('savedPolygon');
+    //   if (!saved) {
+    //     showMessage("No saved polygon found.");
+    //     return;
+    //   }
+    //   const coords = JSON.parse(saved);
+    //   if (currentPolygon) currentPolygon.setMap(null);
+    //   currentPolygon = new google.maps.Polygon({
+    //     paths: coords,
+    //     strokeColor: '#2563eb',
+    //     strokeOpacity: 0.8,
+    //     strokeWeight: 2,
+    //     fillColor: '#2563eb',
+    //     fillOpacity: 0.35,
+    //     editable: true,
+    //     map: map,
+    //   });
+    //   const bounds = new google.maps.LatLngBounds();
+    //   currentPolygon.getPath().forEach(p => bounds.extend(p));
+    //   map.fitBounds(bounds);
+    //   showMessage("Polygon loaded.");
+    // }
+
+    function clearAll() {
+      if (currentPolygon) {
+        currentPolygon.setMap(null);
+        currentPolygon = null;
+      }
+      localStorage.removeItem('savedPolygon');
+      document.getElementById('fieldNameInput').value = '';
+      if (drawingManager) {
+        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+      }
+      showMessage("Cleared.");
+    }
+
+    function initMap() {
+      if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+        showMessage("Google Maps failed to load.");
+        return;
+      }
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 20.5937, lng: 78.9629 },
+        zoom: 5,
+        mapTypeId: 'hybrid',
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false
+      });
+
+      drawingManager = new google.maps.drawing.DrawingManager({
+        drawingMode: google.maps.drawing.OverlayType.POLYGON,
+        drawingControl: true,
+        drawingControlOptions: {
+          position: google.maps.ControlPosition.TOP_CENTER,
+          drawingModes: ['polygon']
+        },
+        polygonOptions: {
+          strokeColor: '#2563eb',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#2563eb',
+          fillOpacity: 0.35,
+          editable: true
+        }
+      });
+
+      drawingManager.setMap(map);
+
+      google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+        if (currentPolygon) currentPolygon.setMap(null);
+        currentPolygon = polygon;
+        drawingManager.setDrawingMode(null);
+
+        const coords = getPolygonCoordinates();
+        updateCoordinateTable(coords);
+        // const coords = getPolygonCoordinates();
+        // document.getElementById('coordinatesOutput').value = JSON.stringify(coords, null, 2);
+      });
+    }
+
+    // Ensure initMap is globally accessible
+    window.initMap = initMap;
+
+    // Dynamically load Google Maps script
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=drawing&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = () => showMessage("Failed to load Google Maps.");
+    document.head.appendChild(script);
+
+    // Attach button listeners after DOM is ready
+    window.addEventListener('DOMContentLoaded', () => {
+      // document.getElementById('saveJsonBtn').addEventListener('click', saveAsJson);
+      // document.getElementById('saveLocalBtn').addEventListener('click', saveToLocalStorage);
+      // document.getElementById('loadLocalBtn').addEventListener('click', loadFromLocalStorage);
+      document.getElementById('clearBtn').addEventListener('click', clearAll);
+      document.getElementById('saveLocalBtn').addEventListener('click', () => {
+        saveFieldAsJson();
+        const mapElement = document.getElementById('map');
+        const fieldName = document.getElementById('fieldNameInput').value.trim();
+
+        if (!fieldName) {
+          alert("Please enter a field name before downloading.");
+          return;
+        }
+        
+        if (window.parent && typeof window.parent.addFieldToDropdown === "function") {
+            window.parent.addFieldToDropdown(fieldName);
+        }
+
+        html2canvas(mapElement).then(canvas => {
+          const link = document.createElement('a');
+          const safeName = fieldName.replace(/[^a-z0-9_\-]/gi, '_').toLowerCase(); // sanitize filename
+          link.download = `${safeName}_map.png`;
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
