@@ -19,18 +19,7 @@ export const fetchVegetationIndices = async (indexName) => {
 
 // Function to fetch weather forecast data
 export const fetchWeatherForecast = async (location) => {
-  // This would be an API call to a weather service
-  // For now, return mock data
-  return {
-    location,
-    forecast: [
-      { date: '2025-08-15', high: 32, low: 24, condition: 'sunny' },
-      { date: '2025-08-16', high: 30, low: 23, condition: 'partly_cloudy' },
-      { date: '2025-08-17', high: 29, low: 22, condition: 'cloudy' },
-      { date: '2025-08-18', high: 31, low: 23, condition: 'sunny' },
-      { date: '2025-08-19', high: 33, low: 25, condition: 'sunny' },
-    ]
-  };
+  return location;
 };
 
 // Function to fetch all fields

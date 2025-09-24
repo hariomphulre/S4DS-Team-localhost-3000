@@ -276,7 +276,7 @@ app.delete('/api/fields/:id', (req, res) => {
 app.post('/api/update-manipal', (req, res) => {
   try {
     const { fieldId } = req.body;
-    
+    console.log("from manipal route",req.body);
     if (!fieldId) {
       return res.status(400).json({
         success: false,
@@ -479,7 +479,6 @@ const weatherapikey = process.env.OPENWEATHER_API_KEY;
 app.post("/api/weather-coordinates", async (req, res) => {
   try {
     const coordinates = req.body; 
-    console.log("Received coordinates:", coordinates);
 
     if (!Array.isArray(coordinates) || coordinates.length === 0) {
       return res.status(400).json({ message: "Coordinates array is required" });
@@ -507,7 +506,6 @@ app.post("/api/weather-coordinates", async (req, res) => {
     });
 
     const allWeatherData = await Promise.all(weatherDataPromises);
-    console.log(allWeatherData);
     res.status(200).json({
       success: true,
       data: allWeatherData,
