@@ -124,11 +124,14 @@ const FieldMapper = () => {
     const coords = getPolygonCoordinates(polygon);
     setCoordinates(coords);
     setCoordinatesforweather(coords);
+    // Auto-populate location from backend using centroid
+    updateLocationFromBackend(coords);
 
     const updatePolygonStates = () => {
       const newCoords = getPolygonCoordinates(polygon);
       setCoordinates(newCoords);
       setCoordinatesforweather(newCoords);
+      updateLocationFromBackend(newCoords);
     };
     
     window.google.maps.event.addListener(polygon.getPath(), 'set_at', updatePolygonStates);
@@ -166,6 +169,34 @@ const FieldMapper = () => {
     };
   }
   
+  // Fetch backend-derived location (e.g., nearest place name) using centroid
+  const updateLocationFromBackend = async (points) => {
+    try {
+      if (!points || points.length === 0) return;
+      const centroid = getCentroid(points);
+      const res = await fetch(API_URLS.WEATHER_COORDINATES, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([centroid])
+      });
+      const json = await res.json();
+      if (res.ok && json && json.success && Array.isArray(json.data) && json.data.length > 0) {
+        const first = json.data[0];
+        const backendName = first?.raw?.name;
+        if (backendName && typeof backendName === 'string' && backendName.trim().length > 0) {
+          setFieldLocation(backendName);
+        } else {
+          setFieldLocation(`${centroid.lat.toFixed(5)}, ${centroid.lng.toFixed(5)}`);
+        }
+      } else {
+        setFieldLocation(`${centroid.lat.toFixed(5)}, ${centroid.lng.toFixed(5)}`);
+      }
+    } catch (err) {
+      const centroid = getCentroid(points);
+      setFieldLocation(`${centroid.lat.toFixed(5)}, ${centroid.lng.toFixed(5)}`);
+    }
+  };
+
 
   const handleClearAll = () => {
     if (currentPolygon) {
@@ -370,7 +401,7 @@ const FieldMapper = () => {
                 placeholder="Field Location"
                 value={fieldLocation}
                 onChange={(e) => setFieldLocation(e.target.value)}
-                disabled={loading}
+                readOnly
               />
             </div>
 
