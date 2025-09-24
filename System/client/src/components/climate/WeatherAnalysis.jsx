@@ -20,7 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Line, Bar } from 'react-chartjs-2';
 import { useAppContext } from '../../context/AppContext';
-import { fetchWeatherByLocation } from '../../services/dataService';
+import { fetchWeatherData } from '../../services/climateService';
 
 const WeatherAnalysis = ({ dateRange, onDateRangeChange, showDateRangePicker, setShowDateRangePicker }) => {
   const { selectedField, selectedLocation } = useAppContext();
