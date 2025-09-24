@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+require('dotenv').config(); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -468,6 +469,53 @@ app.get('/api/soil/:fieldId', (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Server error while getting soil data'
+    });
+  }
+});
+
+const weatherapikey = process.env.OPENWEATHER_API_KEY;
+
+app.post("/api/weather-coordinates", async (req, res) => {
+  try {
+    const coordinates = req.body; 
+    console.log("Received coordinates:", coordinates);
+
+    if (!Array.isArray(coordinates) || coordinates.length === 0) {
+      return res.status(400).json({ message: "Coordinates array is required" });
+    }
+
+    // Fetch weather data for each coordinate
+    const weatherDataPromises = coordinates.map(async ({ lat, lng }) => {
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${weatherapikey}&units=metric`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // Return only useful info
+      return {
+        simplified: {
+          lat,
+          lng,
+          weather: data.weather[0].description,
+          temperature: data.main.temp,
+          feels_like: data.main.feels_like,
+          humidity: data.main.humidity,
+          wind_speed: data.wind.speed,
+        },
+        raw: data
+      };      
+    });
+
+    const allWeatherData = await Promise.all(weatherDataPromises);
+    console.log(allWeatherData);
+    res.status(200).json({
+      success: true,
+      data: allWeatherData,
+    });
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching weather data",
     });
   }
 });

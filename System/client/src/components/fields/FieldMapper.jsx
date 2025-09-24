@@ -16,6 +16,7 @@ const FieldMapper = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [message, setMessage] = useState({ show: false, text: '', type: 'info' });
   const [loading, setLoading] = useState(false);
+  const [coordinatesforweather, setCoordinatesforweather] = useState([]);
   
   // List of major crops grown in India
   const cropOptions = [
@@ -24,6 +25,8 @@ const FieldMapper = () => {
     'Soybean', 'Sunflower', 'Jute', 'Coffee', 'Tea', 
     'Rubber', 'Tobacco', 'Onion', 'Potato', 'Tomato'
   ];
+
+
 
   // Initialize the Google Maps and drawing tools
   useEffect(() => {
@@ -120,19 +123,17 @@ const FieldMapper = () => {
     // Get coordinates from polygon
     const coords = getPolygonCoordinates(polygon);
     setCoordinates(coords);
+    setCoordinatesforweather(coords);
+
+    const updatePolygonStates = () => {
+      const newCoords = getPolygonCoordinates(polygon);
+      setCoordinates(newCoords);
+      setCoordinatesforweather(newCoords);
+    };
     
-    // Add listener for path changes
-    window.google.maps.event.addListener(
-      polygon.getPath(), 
-      'set_at', 
-      () => setCoordinates(getPolygonCoordinates(polygon))
-    );
-    
-    window.google.maps.event.addListener(
-      polygon.getPath(), 
-      'insert_at', 
-      () => setCoordinates(getPolygonCoordinates(polygon))
-    );
+    window.google.maps.event.addListener(polygon.getPath(), 'set_at', updatePolygonStates);
+    window.google.maps.event.addListener(polygon.getPath(), 'insert_at', updatePolygonStates);
+
   };
 
   const getPolygonCoordinates = (polygon) => {
@@ -147,6 +148,24 @@ const FieldMapper = () => {
     
     return coords;
   };
+
+  //get centrod by coordinates
+  function getCentroid(points) {
+    const n = points.length;
+    let latSum = 0;
+    let lngSum = 0;
+  
+    points.forEach(({ lat, lng }) => {
+      latSum += lat;
+      lngSum += lng;
+    });
+  
+    return {
+      lat: latSum / n,
+      lng: lngSum / n
+    };
+  }
+  
 
   const handleClearAll = () => {
     if (currentPolygon) {
@@ -183,7 +202,7 @@ const FieldMapper = () => {
       });
       return;
     }
-    
+
     if (!fieldLocation.trim()) {
       setMessage({
         show: true,
@@ -228,7 +247,7 @@ const FieldMapper = () => {
       };
       
       console.log('Sending field data to server:', fieldData);
-      
+      console.log("this are weather coordinates", coordinatesforweather)
       // Save to server
       const response = await fetch(API_URLS.FIELDS, {
         method: 'POST',
@@ -238,8 +257,20 @@ const FieldMapper = () => {
         body: JSON.stringify(fieldData),
       });
       
+      const centroid = getCentroid(coordinatesforweather);
+      const response2 = await fetch(API_URLS.WEATHER_COORDINATES,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([centroid])
+      })
+      
       const responseText = await response.text();
       console.log('Server response:', response.status, responseText);
+
+      const responseText2 = await response2.text();
+      console.log('Server response:', response2.status, responseText2);
       
       let result;
       try {
