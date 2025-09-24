@@ -1,6 +1,5 @@
 import { parseCSV } from '../utils/dataUtils';
 import { API_URLS } from '../config';
-
 // This service fetches data from our APIs
 
 // Function to fetch vegetation indices data
@@ -17,9 +16,67 @@ export const fetchVegetationIndices = async (indexName) => {
   }
 };
 
-// Function to fetch weather forecast data
-export const fetchWeatherForecast = async (location) => {
-  return location;
+// Backend-based weather fetch using centroid coordinates
+export const fetchWeatherByCoordinates = async ({ lat, lng }) => {
+  try {
+    if (typeof lat !== 'number' || typeof lng !== 'number') {
+      throw new Error('Invalid coordinates');
+    }
+    const response = await fetch(API_URLS.WEATHER_COORDINATES, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify([{ lat, lng }])
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch weather data');
+    }
+    const json = await response.json();
+    const first = Array.isArray(json?.data) ? json.data[0] : null;
+    if (!first) return null;
+    const raw = first.raw || {};
+    const simplified = first.simplified || {};
+    return {
+      place: raw.name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+      country: raw.sys?.country || '',
+      weather: simplified.weather,
+      temperature: simplified.temperature,
+      feels_like: simplified.feels_like,
+      humidity: simplified.humidity,
+      wind_speed: simplified.wind_speed,
+    };
+  } catch (error) {
+    console.error('Weather fetch (coordinates) error:', error);
+    return null;
+  }
+};
+
+export const fetchWeatherByLocation = async (location) => {
+  try {
+    if (!location || typeof location !== 'string') return null;
+    const response = await fetch(API_URLS.WEATHER_LOCATION, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ location })
+    });
+    if (!response.ok) return null;
+    const json = await response.json();
+    const payload = json?.data;
+    if (!payload) return null;
+    const raw = payload.raw || {};
+    const simplified = payload.simplified || {};
+    return {
+      place: raw.name || location,
+      country: raw.sys?.country || '',
+      weather: simplified.weather,
+      temperature: simplified.temperature,
+      feels_like: simplified.feels_like,
+      humidity: simplified.humidity,
+      wind_speed: simplified.wind_speed,
+    };
+  } catch (error) {
+    console.error('Weather fetch (location) error:', error);
+    return null;
+  }
 };
 
 // Function to fetch all fields

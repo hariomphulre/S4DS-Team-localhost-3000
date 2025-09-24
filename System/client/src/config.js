@@ -15,7 +15,8 @@ export const API_URLS = {
   FIELDS: `${API_BASE_URL}/api/fields`,
   SOIL_DATA: `${API_BASE_URL}/api/soil`,
   UPDATE_MANIPAL: `${API_BASE_URL}/api/update-manipal`,
-  WEATHER_COORDINATES: `${API_BASE_URL}/api/weather-coordinates`
+  WEATHER_COORDINATES: `${API_BASE_URL}/api/weather-coordinates`,
+  WEATHER_LOCATION: `${API_BASE_URL}/api/weather-location`
 };
 
 export default {

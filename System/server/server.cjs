@@ -519,6 +519,34 @@ app.post("/api/weather-coordinates", async (req, res) => {
   }
 });
 
+// API endpoint: weather by location name (keeps API key on server)
+app.post("/api/weather-location", async (req, res) => {
+  try {
+    const { location } = req.body || {};
+    if (!location || typeof location !== 'string') {
+      return res.status(400).json({ success: false, message: "location string is required" });
+    }
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${weatherapikey}&units=metric`;
+    const response = await fetch(url);
+    const data = await response.json();
+    if (!response.ok) {
+      return res.status(response.status).json({ success: false, message: data?.message || 'weather fetch failed' });
+    }
+    const simplified = {
+      weather: data.weather?.[0]?.description,
+      temperature: data.main?.temp,
+      feels_like: data.main?.feels_like,
+      humidity: data.main?.humidity,
+      wind_speed: data.wind?.speed,
+    };
+    console.log("this is weather data",data);
+    return res.status(200).json({ success: true, data: { simplified} });
+  } catch (error) {
+    console.error('Error fetching weather by location:', error);
+    return res.status(500).json({ success: false, message: 'Server error while fetching weather by location' });
+  }
+});
+
 // Serve static files from public directory for production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
